@@ -9,7 +9,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
-    const currentDate = new Date();
+    const currentDate = new Date(selectedDate);
 
     if (selectedDate <= currentDate) {
       Notiflix.Notify.warning("Please choose a date in the future");
@@ -17,7 +17,7 @@ const options = {
     }
 
     const startButton = document.querySelector('[data-start]');
-    startButton.removeAttribute('disabled');
+    
   },
 };
 
@@ -57,13 +57,9 @@ let countdownInterval;
 
 function startTimer() {
   const selectedDate = flatpickr.parseDate(document.querySelector('#datetime-picker').value);
-  const currentDate = new Date();
+  const currentDate = new Date(flatpickr.parseDate);
   const remainingTime = selectedDate.getTime() - currentDate.getTime();
 
-  if (remainingTime <= 0) {
-    Notiflix.Notify.warning("Please choose a date in the future");
-    return;
-  }
 
   countdownInterval = setInterval(() => {
     const timeLeft = selectedDate.getTime() - new Date().getTime();
